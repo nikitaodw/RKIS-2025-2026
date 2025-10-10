@@ -11,6 +11,8 @@
             CreateUser();
 
             string[] todos = new string[2];
+            bool[] statuses = new bool[2];
+            DateTime[] dates = new DateTime[2];
             int index = 0;
 
             while (true)
@@ -33,33 +35,46 @@
                 }
                 else if (input.StartsWith("add"))
                 {
-                    string task = input.Split(" ", 2)[1];
-                    if (index >= todos.Length)
-                    {
-                        string[] newTodos = new string[todos.Length*2];
-                        for (int i = 0; i < todos.Length; i++)
-                            newTodos[i] = todos[i];
-                        
-                        todos = newTodos;
-                    }
-
-                    todos[index] = task;
-                    index++;
-                    Console.WriteLine($"Задача добавлена: {task}");
+                    AddCommand(input, ref todos, ref statuses, ref dates, ref index);
                 }
                 else if (input == "view")
                 {
-                    Console.WriteLine("Список задач:");
-                    for (int i = 0; i < index; i++)
-                    {
-                        Console.WriteLine($"{i + 1}) {todos[i]}");
-                    }
+                    ViewCommand(todos, statuses, dates);
                 }
                 else
                 {
                     Console.WriteLine("Неизвестная команда.");
                 }
             }
+        }
+
+        private static void ViewCommand(string[] todos, bool[] statuses, DateTime[] dates)
+        {
+            Console.WriteLine("Список задач:");
+            for (int i = 0; i < todos.Length; i++)
+            {
+                if (string.IsNullOrEmpty(todos[i])) continue;
+                Console.WriteLine($"{i + 1}) {todos[i]}, сделано:{statuses[i]}, {dates[i]}");
+            }
+        }
+
+        private static void AddCommand(string command, ref string[] todos, ref bool[] statuses, ref DateTime[] dates, ref int index)
+        {
+            string text = command.Substring(4);
+            if (index == todos.Length)
+            {
+                int newSize = todos.Length * 2;
+                Array.Resize(ref todos, newSize);
+                Array.Resize(ref statuses, newSize);
+                Array.Resize(ref dates, newSize);
+            }
+
+            todos[index] = text;
+            statuses[index] = false;
+            dates[index] = DateTime.Now;
+            index++;
+
+            Console.WriteLine($"Добавлена задача: \"{text}\"");
         }
 
         private static void ProfileCommand()
