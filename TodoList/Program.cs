@@ -41,6 +41,10 @@
                 {
                     DoneCommand(input, statuses, dates);
                 }
+                else if (input.StartsWith("update "))
+                {
+                    UpdateCommand(input, todos, dates);
+                }
                 else if (input == "view")
                 {
                     ViewCommand(todos, statuses, dates);
@@ -50,6 +54,16 @@
                     Console.WriteLine("Неизвестная команда.");
                 }
             }
+        }
+
+        private static void UpdateCommand(string command, string[] todos, DateTime[] dates)
+        {
+            string[] parts = command.Split(' ', 3);
+            int index = int.Parse(parts[1]) - 1;
+            
+            todos[index] = parts[2];
+            dates[index] = DateTime.Now;
+            Console.WriteLine($"Задача под номером {index + 1} была обновлена.");
         }
 
         private static void DoneCommand(string command, bool[] statuses, DateTime[] dates)
