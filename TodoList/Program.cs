@@ -16,6 +16,33 @@
             int age = DateTime.Now.Year - year;
             
             Console.WriteLine($"Добавлен пользователь {name} {surname}, возраст - {age}");
+
+            while (true)
+            {
+                Console.Write("Введите команду: ");
+                string input = Console.ReadLine();
+                
+                if (input == "exit")
+                {
+                    Console.WriteLine("Выход из программы.");
+                    break;
+                }
+                if (input == "help")
+                {
+                    Console.WriteLine("Доступные команды:");
+                    Console.WriteLine("help - вывести список команд");
+                    Console.WriteLine("profile - показать данные пользователя");
+                    Console.WriteLine("exit - выйти из программы");
+                }
+                else if (input == "profile")
+                {
+                    Console.WriteLine($"{name} {surname}, {age}");
+                }
+                else
+                {
+                    Console.WriteLine("Неизвестная команда.");
+                }
+            }
         }
     }
 }
