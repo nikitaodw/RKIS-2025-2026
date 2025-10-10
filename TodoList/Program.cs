@@ -37,6 +37,10 @@
                 {
                     AddCommand(input, ref todos, ref statuses, ref dates, ref index);
                 }
+                else if (input.StartsWith("done "))
+                {
+                    DoneCommand(input, statuses, dates);
+                }
                 else if (input == "view")
                 {
                     ViewCommand(todos, statuses, dates);
@@ -46,6 +50,14 @@
                     Console.WriteLine("Неизвестная команда.");
                 }
             }
+        }
+
+        private static void DoneCommand(string command, bool[] statuses, DateTime[] dates)
+        {
+            int index = int.Parse(command.Split(' ')[1]) - 1;
+            statuses[index] = true;
+            dates[index] = DateTime.Now;
+            Console.WriteLine($"Задача под номером {index + 1} отмечена выполненной.");
         }
 
         private static void ViewCommand(string[] todos, bool[] statuses, DateTime[] dates)
