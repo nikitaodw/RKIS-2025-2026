@@ -45,6 +45,10 @@
                 {
                     UpdateCommand(input, todos, dates);
                 }
+                else if (input.StartsWith("delete "))
+                {
+                    DeleteCommand(input, ref todos, ref statuses, ref dates, ref index);
+                }
                 else if (input == "view")
                 {
                     ViewCommand(todos, statuses, dates);
@@ -54,6 +58,24 @@
                     Console.WriteLine("Неизвестная команда.");
                 }
             }
+        }
+
+        private static void DeleteCommand(string command, ref string[] todos, ref bool[] statuses, ref DateTime[] dates, ref int index)
+        {
+            int idx = int.Parse(command.Split(' ')[1]) - 1;
+            
+            for (int i = idx; i < index - 1; i++)
+            {
+                todos[i] = todos[i + 1];
+                statuses[i] = statuses[i + 1];
+                dates[i] = dates[i + 1];
+            }
+            
+            index--;
+            todos[index] = string.Empty;
+            statuses[index] = false;
+            dates[index] = default;
+            Console.WriteLine($"Задача под номером {idx + 1} была удалена.");
         }
 
         private static void UpdateCommand(string command, string[] todos, DateTime[] dates)
