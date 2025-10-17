@@ -53,6 +53,10 @@
                 {
                     ViewCommand(input, todos, statuses, dates, index);
                 }
+                else if (input.StartsWith("read"))
+                {
+	                ReadCommand(input, todos, statuses, dates);
+                }
                 else
                 {
                     Console.WriteLine("Неизвестная команда.");
@@ -137,6 +141,14 @@
 
 		        Console.WriteLine(row);
 		    }
+		}
+        
+		private static void ReadCommand(string command, string[] todos, bool[] statuses, DateTime[] dates)
+		{
+			string[] parts = command.Split(' ', 3);
+			int index = int.Parse(parts[1]) - 1;
+			
+			Console.WriteLine($"{index + 1}) {todos[index]}, сделано:{statuses[index]}, {dates[index]}");
 		}
 
         private static void AddCommand(string command, ref string[] todos, ref bool[] statuses, ref DateTime[] dates, ref int index)
