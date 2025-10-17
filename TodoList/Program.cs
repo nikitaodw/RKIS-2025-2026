@@ -108,7 +108,26 @@
 
         private static void AddCommand(string command, ref string[] todos, ref bool[] statuses, ref DateTime[] dates, ref int index)
         {
-            string text = command.Substring(4);
+	        string[] flags = ParseFlags(command);
+	        bool isMultiTask = flags.Contains("--multi") ||  flags.Contains("-m") ;
+
+	        string text = "";
+            if (!isMultiTask)
+            {
+	            text = command.Substring(4);
+            }
+            else
+            {
+	            Console.WriteLine("Многострочный режим, введите !end для отправки");
+
+	            while (true)
+	            {
+		            string line = Console.ReadLine();
+		            if (line == "!end") break;
+		            text += line + "\n";
+	            }
+            }
+            
             if (index == todos.Length)
             {
                 int newSize = todos.Length * 2;
@@ -123,6 +142,29 @@
             index++;
 
             Console.WriteLine($"Добавлена задача: \"{text}\"");
+        }
+        
+        private static string[] ParseFlags(string command)
+        {
+	        var parts = command.Split(' ');
+	        var flags = new List<string>();
+
+	        foreach (var part in parts)
+	        {
+		        if (part.StartsWith("-"))
+		        {
+			        for (int i = 1; i < part.Length; i++)
+			        {
+				        flags.Add("-" + part[i]);
+			        }
+		        }
+		        else if (part.StartsWith("--"))
+		        {
+			        flags.Add(part);
+		        }
+	        }
+
+	        return flags.ToArray();
         }
 
         private static void ProfileCommand()
