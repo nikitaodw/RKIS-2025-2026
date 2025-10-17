@@ -35,7 +35,7 @@
                 }
                 else if (input.StartsWith("add"))
                 {
-                    AddCommand(input, ref todos, ref statuses, ref dates, ref index);
+                    AddCommand(input, todos, statuses, dates, ref index);
                 }
                 else if (input.StartsWith("done "))
                 {
@@ -47,7 +47,7 @@
                 }
                 else if (input.StartsWith("delete "))
                 {
-                    DeleteCommand(input, ref todos, ref statuses, ref dates, ref index);
+                    DeleteCommand(input, todos, statuses, dates, ref index);
                 }
                 else if (input.StartsWith("view"))
                 {
@@ -64,7 +64,7 @@
             }
         }
 
-        private static void DeleteCommand(string command, ref string[] todos, ref bool[] statuses, ref DateTime[] dates, ref int index)
+        private static void DeleteCommand(string command, string[] todos, bool[] statuses, DateTime[] dates, ref int index)
         {
             int idx = int.Parse(command.Split(' ')[1]) - 1;
             
@@ -110,7 +110,7 @@
 		    bool hasDate = flags.Contains("--update-date") || flags.Contains("-d");
 
 		    int indexWidth = 7;
-		    int textWidth = 32;
+		    int textWidth = 33;
 		    int statusWidth = 12;
 		    int dateWidth = 19;
 
@@ -151,7 +151,7 @@
 			Console.WriteLine($"{index + 1}) {todos[index]}, сделано:{statuses[index]}, {dates[index]}");
 		}
 
-        private static void AddCommand(string command, ref string[] todos, ref bool[] statuses, ref DateTime[] dates, ref int index)
+        private static void AddCommand(string command, string[] todos, bool[] statuses, DateTime[] dates, ref int index)
         {
 	        string[] flags = ParseFlags(command);
 	        bool isMultiTask = flags.Contains("--multi") ||  flags.Contains("-m") ;
@@ -222,8 +222,12 @@
             Console.WriteLine("Доступные команды:");
             Console.WriteLine("help - вывести список команд");
             Console.WriteLine("profile - показать данные пользователя");
-            Console.WriteLine("add текст задачи - добавить новую задачу");
-            Console.WriteLine("view - показать все задачи");
+            Console.WriteLine("add текст задачи - добавить новую задачу (флаги: --multiline -m)");
+            Console.WriteLine("view - показать все задачи (флаги: --all -a, --index -i, --status -s, --update-date -d)");
+            Console.WriteLine("read idx - просмотр задачи");
+            Console.WriteLine("done idx - отмечает задачу выполненной");
+            Console.WriteLine("delete idx - удаляет задачу");
+            Console.WriteLine("update idx - обновляет задачу");
             Console.WriteLine("exit - выйти из программы");
         }
 
