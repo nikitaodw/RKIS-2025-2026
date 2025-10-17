@@ -49,9 +49,9 @@
                 {
                     DeleteCommand(input, ref todos, ref statuses, ref dates, ref index);
                 }
-                else if (input == "view")
+                else if (input.StartsWith("view"))
                 {
-                    ViewCommand(todos, statuses, dates);
+                    ViewCommand(input, todos, statuses, dates, index);
                 }
                 else
                 {
@@ -96,15 +96,48 @@
             Console.WriteLine($"Задача под номером {index + 1} отмечена выполненной.");
         }
 
-        private static void ViewCommand(string[] todos, bool[] statuses, DateTime[] dates)
-        {
-            Console.WriteLine("Список задач:");
-            for (int i = 0; i < todos.Length; i++)
-            {
-                if (string.IsNullOrEmpty(todos[i])) continue;
-                Console.WriteLine($"{i + 1}) {todos[i]}, сделано:{statuses[i]}, {dates[i]}");
-            }
-        }
+        private static void ViewCommand(string command, string[] todos, bool[] statuses, DateTime[] dates, int index)
+		{
+			string[] flags = ParseFlags(command);
+
+			bool hasAll = flags.Contains("--all") || flags.Contains("-a");
+		    bool hasIndex = flags.Contains("--index") || flags.Contains("-i");
+		    bool hasStatus = flags.Contains("--status") || flags.Contains("-s");
+		    bool hasDate = flags.Contains("--update-date") || flags.Contains("-d");
+
+		    int indexWidth = 7;
+		    int textWidth = 32;
+		    int statusWidth = 12;
+		    int dateWidth = 19;
+
+		    string headerRow = "";
+		    if (hasAll || hasIndex) headerRow += string.Format("{0,-" + indexWidth + "}|", "Индекс");
+		    headerRow += string.Format("{0,-" + textWidth + "}|", "Текст задачи");
+		    if (hasAll || hasStatus) headerRow += string.Format("{0,-" + statusWidth + "}|", "Статус");
+		    if (hasAll || hasDate) headerRow += string.Format("{0,-" + dateWidth + "}|", "Дата обновления");
+
+		    Console.WriteLine(headerRow);
+		    Console.WriteLine(new string('-', headerRow.Length));
+
+		    for (int i = 0; i < index; i++)
+		    {
+		        if (string.IsNullOrEmpty(todos[i])) continue;
+
+		        string text = todos[i];
+		        if (text.Length > 30) text = text.Substring(0, 30) + "...";
+
+		        string status = statuses[i] ? "выполнена" : "не выполнена";
+		        string date = dates[i].ToString("yyyy-MM-dd HH:mm");
+
+		        string row = "";
+		        if (hasAll || hasIndex) row += string.Format("{0,-" + indexWidth + "}|", i + 1);
+		        row += string.Format("{0,-" + textWidth + "}|", text);
+		        if (hasAll || hasStatus) row += string.Format("{0,-" + statusWidth + "}|", status);
+		        if (hasAll || hasDate) row += string.Format("{0,-" + dateWidth + "}|", date);
+
+		        Console.WriteLine(row);
+		    }
+		}
 
         private static void AddCommand(string command, ref string[] todos, ref bool[] statuses, ref DateTime[] dates, ref int index)
         {
