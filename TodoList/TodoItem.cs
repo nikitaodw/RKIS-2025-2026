@@ -37,6 +37,6 @@ public class TodoItem
 	public string GetFullInfo(int index)
 	{
 		string status = IsDone ? "выполнена" : "не выполнена";
-		return $"Индекс:{index}\nДата:{LastUpdate}\nНазвание:{Text}\nСтатус:{status}";
+		return $"Индекс:{index + 1}\nДата:{LastUpdate}\nНазвание:{Text}\nСтатус:{status}";
 	}
 }

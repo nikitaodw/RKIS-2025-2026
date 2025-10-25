@@ -11,8 +11,9 @@ public class TodoList
             IncreaseArray();
 
         todos[taskCount] = item;
-        Console.WriteLine($"Добавлена задача: {taskCount}) {item.Text}");
         taskCount++;
+
+        Console.WriteLine($"Добавлена задача: {taskCount}) {item.Text}");
     }
 
     public void Delete(int idx)
