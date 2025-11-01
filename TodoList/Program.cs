@@ -81,44 +81,6 @@
 			todos.Read(idx);
 		}
 
-        private static void AddCommand(string command)
-        {
-	        string[] flags = ParseFlags(command);
-	        bool isMultiTask = flags.Contains("--multi") ||  flags.Contains("-m") ;
-
-	        string text = "";
-            if (!isMultiTask)
-            {
-	            text = ExtractTaskText(command);
-            }
-            else
-            {
-	            Console.WriteLine("Многострочный режим, введите !end для отправки");
-
-	            while (true)
-	            {
-		            string line = Console.ReadLine();
-		            if (line == "!end") break;
-		            text += line + "\n";
-	            }
-            }
-            
-            todos.Add(new TodoItem(text));
-        }
-        static string ExtractTaskText(string input)
-        {
-	        string[] parts = input.Split('"');
-            
-	        if (parts.Length >= 2)
-	        {
-		        return parts[1];
-	        }
-	        else
-	        {
-		        return input.Substring(3).Trim();
-	        }
-        }
-        
         private static string[] ParseFlags(string command)
         {
 	        var parts = command.Split(' ');
