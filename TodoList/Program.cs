@@ -5,11 +5,15 @@ namespace TodoList
 	
     class Program
     {
-	    static Profile profile;
+	    public static string dataDirPath = "data";
+	    public static string profilePath = Path.Combine(dataDirPath, "profile.txt");
         public static void Main()
         {
+	        FileManager.EnsureDataDirectory(dataDirPath);
+	        if (!File.Exists(profilePath)) File.WriteAllText(profilePath, "Default;User;2000");
+	        
+	        
             Console.WriteLine("Работу выполнили: Галстян и Дзуцев");
-            CreateUser();
 
             while (true)
             {
@@ -19,20 +23,6 @@ namespace TodoList
 	            ICommand command = CommandParser.Parse(input);
 	            command.Execute();
             }
-        }
-        
-        private static void CreateUser()
-        {
-            Console.Write("Введите ваше имя: ");
-            var name = Console.ReadLine();
-            Console.Write("Введите вашу фамилию: ");
-            var surname = Console.ReadLine();
-
-            Console.Write("Введите ваш год рождения: ");
-            var year = int.Parse(Console.ReadLine());
-            
-            profile = new Profile(name, surname, year);
-            Console.WriteLine(profile.GetInfo());
         }
     }
 }

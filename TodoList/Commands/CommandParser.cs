@@ -2,8 +2,8 @@ namespace TodoList.Commands;
 
 public static class CommandParser
 {
-	public static Profile Profile = new Profile("Test", "test", 2000);
-	public static TodoList TodoList = new();
+	public static Profile Profile = FileManager.LoadProfile(Program.profilePath);
+	private static TodoList _todoList = new();
 	public static ICommand Parse(string input)
 	{
 		string[] twoParts = input.Trim().Split(' ', 2);
@@ -11,12 +11,17 @@ public static class CommandParser
 		string commandName = twoParts[0].ToLower();
 		string[] flags = ParseFlags(input);
 
+		if (input == "set profile")
+		{
+			return new SetProfileCommand();
+		}
+		
 		switch (commandName)
 		{
 			case "add":
 				return new AddCommand
 				{
-					Todos = TodoList,
+					Todos = _todoList,
 					IsMultiTask = flags.Contains("--multi") || flags.Contains("-m"),
 					Text = input
 				};
@@ -24,7 +29,7 @@ public static class CommandParser
 			case "view":
 				return new ViewCommand
 				{
-					Todos = TodoList,
+					Todos = _todoList,
 					hasAll = flags.Contains("--all") || flags.Contains("-a"),
 					hasIndex = flags.Contains("--Index") || flags.Contains("-i"),
 					hasStatus = flags.Contains("--status") || flags.Contains("-s"),
@@ -34,26 +39,26 @@ public static class CommandParser
 			case "done":
 				return new DoneCommand
 				{
-					Todos = TodoList,
+					Todos = _todoList,
 					Index = int.Parse(twoParts[1]) - 1
 				};
 
 			case "delete":
 				return new DeleteCommand
 				{
-					Todos = TodoList,
+					Todos = _todoList,
 					Index = int.Parse(twoParts[1]) - 1
 				};
 			case "read":
 				return new ReadCommand
 				{
-					Todos = TodoList,
+					Todos = _todoList,
 					Index = int.Parse(twoParts[1]) - 1
 				};
 			case "update":
 				return new UpdateCommand
 				{
-					Todos = TodoList,
+					Todos = _todoList,
 					Index = int.Parse(threeParts[1]) - 1,
 					NewText = threeParts[2]
 				};
