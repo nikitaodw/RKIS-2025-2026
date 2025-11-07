@@ -1,4 +1,4 @@
-namespace TodoList;
+namespace TodoList.Commands;
 
 public class ViewCommand : ICommand
 {
@@ -6,10 +6,10 @@ public class ViewCommand : ICommand
 	public bool hasStatus { get; set; }
 	public bool hasDate { get; set; }
 	public bool hasAll { get; set; }
-	public TodoList todos { get; set; }
+	public TodoList Todos { get; set; }
 
 	public void Execute()
 	{
-		todos.View(hasIndex, hasStatus, hasDate, hasAll);
+		Todos.View(hasIndex, hasStatus, hasDate, hasAll);
 	}
 }

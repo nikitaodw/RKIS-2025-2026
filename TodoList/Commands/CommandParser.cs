@@ -1,8 +1,10 @@
-namespace TodoList;
+namespace TodoList.Commands;
 
 public static class CommandParser
 {
-	public static ICommand Parse(string input, TodoList todoList, Profile profile)
+	public static Profile Profile = new Profile("Test", "test", 2000);
+	public static TodoList TodoList = new();
+	public static ICommand Parse(string input)
 	{
 		string[] twoParts = input.Trim().Split(' ', 2);
 		string[] threeParts = input.Trim().Split(' ', 3);
@@ -14,17 +16,17 @@ public static class CommandParser
 			case "add":
 				return new AddCommand
 				{
-					todos = todoList,
-					isMultiTask = flags.Contains("--multi") || flags.Contains("-m"),
-					text = input
+					Todos = TodoList,
+					IsMultiTask = flags.Contains("--multi") || flags.Contains("-m"),
+					Text = input
 				};
 
 			case "view":
 				return new ViewCommand
 				{
-					todos = todoList,
+					Todos = TodoList,
 					hasAll = flags.Contains("--all") || flags.Contains("-a"),
-					hasIndex = flags.Contains("--index") || flags.Contains("-i"),
+					hasIndex = flags.Contains("--Index") || flags.Contains("-i"),
 					hasStatus = flags.Contains("--status") || flags.Contains("-s"),
 					hasDate = flags.Contains("--update-date") || flags.Contains("-d")
 				};
@@ -32,34 +34,34 @@ public static class CommandParser
 			case "done":
 				return new DoneCommand
 				{
-					todos = todoList,
-					index = int.Parse(twoParts[1]) - 1
+					Todos = TodoList,
+					Index = int.Parse(twoParts[1]) - 1
 				};
 
 			case "delete":
 				return new DeleteCommand
 				{
-					todos = todoList,
-					index = int.Parse(twoParts[1]) - 1
+					Todos = TodoList,
+					Index = int.Parse(twoParts[1]) - 1
 				};
 			case "read":
 				return new ReadCommand
 				{
-					todos = todoList,
-					index = int.Parse(twoParts[1]) - 1
+					Todos = TodoList,
+					Index = int.Parse(twoParts[1]) - 1
 				};
 			case "update":
 				return new UpdateCommand
 				{
-					todos = todoList,
-					index = int.Parse(threeParts[1]) - 1,
-					newText = threeParts[2]
+					Todos = TodoList,
+					Index = int.Parse(threeParts[1]) - 1,
+					NewText = threeParts[2]
 				};
 
 			case "profile":
 				return new ProfileCommand
 				{
-					profile = profile
+					profile = Profile
 				};
 
 			case "help":

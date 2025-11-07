@@ -1,16 +1,15 @@
-namespace TodoList;
-
-public class AddCommand: ICommand
+namespace TodoList.Commands;
+public class AddCommand : ICommand
 {
-	public string text { get; set; }
-	public bool isMultiTask { get; set; }
-	public TodoList todos { get; set; }
+	public string Text { get; set; }
+	public bool IsMultiTask { get; set; }
+	public TodoList Todos { get; set; }
 
 	public void Execute()
 	{
-		if (!isMultiTask)
+		if (!IsMultiTask)
 		{
-			text = ExtractTaskText(text);
+			Text = ExtractTaskText(Text);
 		}
 		else
 		{
@@ -20,11 +19,11 @@ public class AddCommand: ICommand
 			{
 				string line = Console.ReadLine();
 				if (line == "!end") break;
-				text += line + "\n";
+				Text += line + "\n";
 			}
 		}
             
-		todos.Add(new TodoItem(text));
+		Todos.Add(new TodoItem(Text));
 	}
 	static string ExtractTaskText(string input)
 	{

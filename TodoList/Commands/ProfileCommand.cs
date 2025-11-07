@@ -1,6 +1,6 @@
-namespace TodoList;
+namespace TodoList.Commands;
 
-public class ProfileCommand: ICommand
+public class ProfileCommand : ICommand
 {
 	public Profile profile { get; set; }
 

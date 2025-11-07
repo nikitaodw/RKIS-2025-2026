@@ -1,10 +1,11 @@
-﻿namespace TodoList
+﻿using TodoList.Commands;
+
+namespace TodoList
 {
 	
     class Program
     {
 	    static Profile profile;
-	    static TodoList todos = new();
         public static void Main()
         {
             Console.WriteLine("Работу выполнили: Галстян и Дзуцев");
@@ -15,7 +16,7 @@
 	            Console.WriteLine("Введите команду: ");
 	            string input = Console.ReadLine();
 
-	            ICommand command = CommandParser.Parse(input, todos, profile);
+	            ICommand command = CommandParser.Parse(input);
 	            command.Execute();
             }
         }

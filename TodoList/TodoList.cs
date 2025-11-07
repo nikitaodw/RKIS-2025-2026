@@ -62,7 +62,7 @@ public class TodoList
 
         for (int i = 0; i < taskCount; i++)
         {
-	        string text = todos[i].Text;
+	        string text = todos[i].Text.Replace("\n", " ");
 	        if (text.Length > 30) text = text.Substring(0, 30) + "...";
 
 	        string status = todos[i].IsDone ? "выполнена" : "не выполнена";
