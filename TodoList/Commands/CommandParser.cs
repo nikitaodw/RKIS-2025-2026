@@ -3,7 +3,7 @@ namespace TodoList.Commands;
 public static class CommandParser
 {
 	public static Profile Profile = FileManager.LoadProfile(Program.profilePath);
-	private static TodoList _todoList = new();
+	public static TodoList TodoList = FileManager.LoadTodos(Program.todoFilePath);
 	public static ICommand Parse(string input)
 	{
 		string[] twoParts = input.Trim().Split(' ', 2);
@@ -21,7 +21,7 @@ public static class CommandParser
 			case "add":
 				return new AddCommand
 				{
-					Todos = _todoList,
+					Todos = TodoList,
 					IsMultiTask = flags.Contains("--multi") || flags.Contains("-m"),
 					Text = input
 				};
@@ -29,36 +29,36 @@ public static class CommandParser
 			case "view":
 				return new ViewCommand
 				{
-					Todos = _todoList,
-					hasAll = flags.Contains("--all") || flags.Contains("-a"),
-					hasIndex = flags.Contains("--Index") || flags.Contains("-i"),
-					hasStatus = flags.Contains("--status") || flags.Contains("-s"),
-					hasDate = flags.Contains("--update-date") || flags.Contains("-d")
+					Todos = TodoList,
+					HasAll = flags.Contains("--all") || flags.Contains("-a"),
+					HasIndex = flags.Contains("--Index") || flags.Contains("-i"),
+					HasStatus = flags.Contains("--status") || flags.Contains("-s"),
+					HasDate = flags.Contains("--update-date") || flags.Contains("-d")
 				};
 
 			case "done":
 				return new DoneCommand
 				{
-					Todos = _todoList,
+					Todos = TodoList,
 					Index = int.Parse(twoParts[1]) - 1
 				};
 
 			case "delete":
 				return new DeleteCommand
 				{
-					Todos = _todoList,
+					Todos = TodoList,
 					Index = int.Parse(twoParts[1]) - 1
 				};
 			case "read":
 				return new ReadCommand
 				{
-					Todos = _todoList,
+					Todos = TodoList,
 					Index = int.Parse(twoParts[1]) - 1
 				};
 			case "update":
 				return new UpdateCommand
 				{
-					Todos = _todoList,
+					Todos = TodoList,
 					Index = int.Parse(threeParts[1]) - 1,
 					NewText = threeParts[2]
 				};

@@ -13,6 +13,13 @@ public class TodoItem
 		LastUpdate = DateTime.Now;
 	}
 
+	public TodoItem(string text, bool isDone, DateTime lastUpdate)
+	{
+		Text = text;
+		IsDone = false;
+		LastUpdate = DateTime.Now;
+	}
+	
 	public void MarkDone()
 	{
 		IsDone = true;

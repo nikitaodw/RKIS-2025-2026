@@ -2,28 +2,26 @@ namespace TodoList;
 
 public class TodoList
 {
-    private TodoItem[] todos = new TodoItem[2];
-    private int taskCount;
+    public TodoItem[] todos = new TodoItem[2];
+    public int TaskCount;
 
     public void Add(TodoItem item)
     {
-        if (taskCount == todos.Length)
+        if (TaskCount == todos.Length)
             IncreaseArray();
 
-        todos[taskCount] = item;
-        taskCount++;
-
-        Console.WriteLine($"Добавлена задача: {taskCount}) {item.Text}");
+        todos[TaskCount] = item;
+        TaskCount++;
     }
 
     public void Delete(int idx)
     {
-        for (var i = idx; i < taskCount - 1; i++)
+        for (var i = idx; i < TaskCount - 1; i++)
         {
             todos[i] = todos[i + 1];
         }
 
-        taskCount--;
+        TaskCount--;
         Console.WriteLine($"Задача под номером {idx + 1} была удалена.");
     }
 
@@ -60,7 +58,7 @@ public class TodoList
         Console.WriteLine(headerRow);
         Console.WriteLine(new string('-', headerRow.Length));
 
-        for (int i = 0; i < taskCount; i++)
+        for (int i = 0; i < TaskCount; i++)
         {
 	        string text = todos[i].Text.Replace("\n", " ");
 	        if (text.Length > 30) text = text.Substring(0, 30) + "...";

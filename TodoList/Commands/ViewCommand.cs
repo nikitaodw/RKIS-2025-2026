@@ -2,14 +2,14 @@ namespace TodoList.Commands;
 
 public class ViewCommand : ICommand
 {
-	public bool hasIndex { get; set; }
-	public bool hasStatus { get; set; }
-	public bool hasDate { get; set; }
-	public bool hasAll { get; set; }
+	public bool HasIndex { get; set; }
+	public bool HasStatus { get; set; }
+	public bool HasDate { get; set; }
+	public bool HasAll { get; set; }
 	public TodoList Todos { get; set; }
 
 	public void Execute()
 	{
-		Todos.View(hasIndex, hasStatus, hasDate, hasAll);
+		Todos.View(HasIndex, HasStatus, HasDate, HasAll);
 	}
 }
