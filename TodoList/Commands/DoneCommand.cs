@@ -1,12 +1,12 @@
 namespace TodoList.Commands;
-public class DoneCommand : ICommand
+public class SetStatusCommand : ICommand
 {
-	public int Index { get; set; }
-
-	public TodoList Todos { get; set; }
+	public int Index { get; init; }
+	public string Value { get; init; }
+	public TodoList Todos { get; init; }
 
 	public void Execute()
 	{
-		Todos.MarkDone(Index);
+		Todos.SetStatus(Index, Enum.Parse<TodoStatus>(Value, true));
 	}
 }

@@ -24,13 +24,16 @@ public class FileManager
 	
 	public static void SaveTodos(TodoList todoList, string filePath)
 	{
-		using var writer = new StreamWriter(filePath, false);
+		List<string> lines = [];
 
-		for (var i = 0; i < todoList.TaskCount; i++)
+		for (var i = 0; i < todoList.todos.Count(); i++)
 		{
 			var item = todoList.todos[i];
-			writer.WriteLine($"{i};{EscapeCsv(item.Text)};{item.IsDone};{item.LastUpdate:O}");
+			var text = EscapeCsv(item.Text);
+			lines.Add($"{i};{text};{item.Status};{item.LastUpdate:O}");
 		}
+
+		File.WriteAllLines(filePath, lines);
 		string EscapeCsv(string text)
 			=> "\"" + text.Replace("\"", "\"\"").Replace("\n", "\\n") + "\"";
 	}
@@ -43,8 +46,7 @@ public class FileManager
 		foreach (var line in lines)
 		{
 			var parts = line.Split(';');
-
-			list.Add(new TodoItem(UnescapeCsv(parts[1]), bool.Parse(parts[2]), DateTime.Parse(parts[3])));
+			list.Add(new TodoItem(UnescapeCsv(parts[1]), Enum.Parse<TodoStatus>(parts[2]), DateTime.Parse(parts[3])));
 		}
 
 		return list;

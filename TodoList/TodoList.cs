@@ -25,9 +25,9 @@ public class TodoList
         Console.WriteLine($"Задача под номером {idx + 1} была удалена.");
     }
 
-    public void MarkDone(int idx)
+    public void SetStatus(int idx, TodoStatus status)
     {
-        todos[idx].MarkDone();
+        todos[idx].SetStatus(status);
         Console.WriteLine($"Задача под номером {idx + 1} отмечена выполненной.");
     }
 
@@ -63,7 +63,7 @@ public class TodoList
 	        string text = todos[i].Text.Replace("\n", " ");
 	        if (text.Length > 30) text = text.Substring(0, 30) + "...";
 
-	        string status = todos[i].IsDone ? "выполнена" : "не выполнена";
+	        string status = todos[i].Status.ToString();
 	        string date = todos[i].LastUpdate.ToString("yyyy-MM-dd HH:mm");
 
 	        string row = "";

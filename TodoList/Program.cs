@@ -14,7 +14,7 @@ namespace TodoList
 	        if (!File.Exists(todoFilePath)) File.WriteAllText(todoFilePath, "");
 	        
             Console.WriteLine("Работу выполнили: Галстян и Дзуцев");
-
+            Console.WriteLine(CommandParser.Profile.GetInfo());
             while (true)
             {
 	            Console.WriteLine("Введите команду: ");

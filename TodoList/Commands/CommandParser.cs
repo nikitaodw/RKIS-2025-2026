@@ -36,12 +36,16 @@ public static class CommandParser
 					HasDate = flags.Contains("--update-date") || flags.Contains("-d")
 				};
 
-			case "done":
-				return new DoneCommand
+			case "status":
 				{
-					Todos = TodoList,
-					Index = int.Parse(twoParts[1]) - 1
-				};
+					var newParts = twoParts[1].Trim().Split(' ');
+					return new SetStatusCommand
+					{
+						Todos = TodoList,
+						Index = int.Parse(newParts[0]),
+						Value = newParts[1]
+					};
+				}
 
 			case "delete":
 				return new DeleteCommand

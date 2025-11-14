@@ -3,26 +3,26 @@ namespace TodoList;
 public class TodoItem
 {
 	public string Text;
-	public bool IsDone;
+	public TodoStatus Status;
 	public DateTime LastUpdate;
 
 	public TodoItem(string text)
 	{
 		Text = text;
-		IsDone = false;
+		Status = TodoStatus.NotStarted;
 		LastUpdate = DateTime.Now;
 	}
 
-	public TodoItem(string text, bool isDone, DateTime lastUpdate)
+	public TodoItem(string text, TodoStatus status, DateTime lastUpdate)
 	{
 		Text = text;
-		IsDone = false;
-		LastUpdate = DateTime.Now;
+		Status = status;
+		LastUpdate = lastUpdate;
 	}
-	
-	public void MarkDone()
+
+	public void SetStatus(TodoStatus newStatus)
 	{
-		IsDone = true;
+		Status = newStatus;
 		LastUpdate = DateTime.Now;
 	}
 
@@ -37,13 +37,13 @@ public class TodoItem
 		string text = Text.Replace("\r", " ").Replace("\n", " ");
 		if (text.Length > 30) text = text[..30] + "...";
 
-		string status = IsDone ? "выполнена" : "не выполнена";
+		string status = Status.ToString();
 		return $"{text,-36}|{status,-16}|{LastUpdate,-16:yyyy-MM-dd HH:mm}|";
 	}
 
 	public string GetFullInfo(int index)
 	{
-		string status = IsDone ? "выполнена" : "не выполнена";
+		string status = Status.ToString();
 		return $"Индекс:{index + 1}\nДата:{LastUpdate}\nНазвание:{Text}\nСтатус:{status}";
 	}
 }
