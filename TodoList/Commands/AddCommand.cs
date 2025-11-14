@@ -24,7 +24,7 @@ public class AddCommand : ICommand
 		}
             
 		Todos.Add(new TodoItem(Text));
-		Console.WriteLine($"Добавлена задача: {Todos.TaskCount}) {Text}");
+		Console.WriteLine($"Добавлена задача: {Todos.todos.Count}) {Text}");
 	}
 	static string ExtractTaskText(string input)
 	{

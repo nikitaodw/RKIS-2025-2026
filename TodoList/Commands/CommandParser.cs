@@ -38,12 +38,11 @@ public static class CommandParser
 
 			case "status":
 				{
-					var newParts = twoParts[1].Trim().Split(' ');
 					return new SetStatusCommand
 					{
 						Todos = TodoList,
-						Index = int.Parse(newParts[0]),
-						Value = newParts[1]
+						Index = int.Parse(threeParts[1]) - 1,
+						Value = threeParts[2]
 					};
 				}
 
